@@ -1,0 +1,36 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RockPaperScissors</title>
+    <link rel="stylesheet" href="{% static 'css/RPSGame.css' %}">
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+</head>
+<body>
+    <header style="padding: 10px;">
+        <nav>
+            <div class="navigation">
+                <a href="{% url 'RPSGame' %}"><img src="{% static 'images/arrow-back.svg' %}" alt="Back" width="40"></a>
+            </div>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <img src="{% static 'images/RPSGame.png' %}" alt="RPSGame">
+        <h1 id="noti" style="color: #ffc060;">Waiting for an opponent connection.</h1>
+        <div class="loader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+    
+</body>
+</html>

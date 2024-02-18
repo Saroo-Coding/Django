@@ -1,0 +1,30 @@
+{% extends "main_template.html" %}
+
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{%static 'css/RPSGame.css'%}">
+{% endblock %}
+
+{% block title %} RockPaperScissors {% endblock %}
+
+{% block body %}
+
+<header style="padding: 10px;">
+    <nav>
+        <div class="navigation">
+            <a href="{% url 'home' %}"><img src="{% static 'images/arrow-back.svg' %}" alt="Back" width="40"></a>
+        </div>
+    </nav>
+</header>
+
+<div class="container">
+    <img src="{% static 'images/RPSGame.png' %}" alt="RPSGame">
+    <form class="selection" action="{% url 'RPSGame' %}" method="post">
+        {% csrf_token %}
+        <button name="submit" type="submit" value="friend">Play with Friend</button>
+        <button name="submit" type="submit" value="random" style="margin-top: 5%;">Quick Match</button>
+    </form>
+</div>
+
+{% endblock %}
