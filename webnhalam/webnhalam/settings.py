@@ -73,6 +73,7 @@ WSGI_APPLICATION = 'webnhalam.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+#pip install psycopg2 để connect vs postgreSQL
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
