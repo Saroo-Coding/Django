@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 import random
 import string
+from .models import Category
 
 def VN_home(request):
     context = {'item' : 123}
@@ -48,4 +49,6 @@ def RPSRandom(request):
     return render(request,'randomRPS.html')
 
 def page(request):
-    return render(request,'page.html')
+    category = Category.objects.all()
+    print(category)
+    return render(request,'page.html',{"cate":category})
