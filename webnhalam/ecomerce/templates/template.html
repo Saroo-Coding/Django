@@ -36,8 +36,24 @@
 				</ul>
 
 				<ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5">
-					<li><a class="nav-link" href="#"><img src="{% static 'images/user.svg' %}" alt="Saroo"></a></li>
-					<li><a class="nav-link" href="{% url 'cart' %}"><img src="{% static 'images/cart.svg' %}" alt="Saroo"></a></li>
+					{% if user.is_authenticated %}
+					<div class="dropdown">
+						<button class="btn-secondary dropdown-toggle" type="button" style="font-weight: 600;padding: 8px 30px;border-radius: 20px;color: #2f2f2f;background: #f9bf29;border: hidden;"
+							data-bs-toggle="dropdown" aria-expanded="false">
+							{{user.username}}
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+							<li style="margin-right: 0px;"><a class="dropdown-item" href="#">Cá nhân</a></li>
+  							<li><a class="dropdown-item" href="#">Cài đặt</a></li>
+  							<li><a class="dropdown-item" href="{% url 'logout' %}">Đăng xuất</a></li>
+						</ul>
+					</div>
+					{% else %}
+					<li><a class="nav-link" href="{% url 'login' %}"><img src="{% static 'images/user.svg' %}"
+						alt="Saroo"></a></li>
+					{% endif %}
+					<li><a class="nav-link" href="{% url 'cart' %}"><img src="{% static 'images/cart.svg' %}"
+								alt="Saroo"></a></li>
 				</ul>
 			</div>
 		</div>
@@ -52,7 +68,8 @@
 				<div class="col-lg-5">
 					<div class="intro-excerpt">
 						<h1><span clsas="d-block">Ăn là mê</span><br><span clsas="d-block">Chê thì khỏi</span></h1>
-						<p><a href="{% url 'cart' %}" class="btn btn-secondary me-2">Mua ngay</a><a href="{% url 'services' %}" class="btn btn-white-outline">Khám phá</a></p>
+						<p><a href="{% url 'cart' %}" class="btn btn-secondary me-2">Mua ngay</a><a
+								href="{% url 'services' %}" class="btn btn-white-outline">Khám phá</a></p>
 					</div>
 				</div>
 				<div class="col-lg-7">
@@ -78,14 +95,16 @@
 			<div class="row">
 				<div class="col-lg-8">
 					<div class="subscription-form">
-						<h3 class="d-flex align-items-center"><span class="me-1"><img src="{% static 'images/envelope-outline.svg' %}" alt="Saroo" class="img-fluid"></span><span>Đăng ký nhận thông tin sản phẩm</span></h3>
+						<h3 class="d-flex align-items-center"><span class="me-1"><img
+									src="{% static 'images/envelope-outline.svg' %}" alt="Saroo"
+									class="img-fluid"></span><span>Đăng ký nhận thông tin sản phẩm</span></h3>
 
 						<form action="#" class="row g-3">
 							<div class="col-auto">
-								<input type="text" class="form-control" placeholder="Tên của bạn">
+								<input type="text" class="form-control" placeholder="Tên của bạn" value="{{user.username}}">
 							</div>
 							<div class="col-auto">
-								<input type="email" class="form-control" placeholder="Email của bạn">
+								<input type="email" class="form-control" placeholder="Email của bạn" value="{{user.email}}">
 							</div>
 							<div class="col-auto">
 								<button title="button" type="button" class="btn btn-primary">
@@ -100,14 +119,19 @@
 
 			<div class="row g-5 ">
 				<div class="col-lg-4">
-					<div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">Saroo Store<span>.</span></a></div>
-					<p class="mb-4">Trang này là project của tui làm để tự học nên zui lòng xem thui test thui đừng đặt hàng rùi kêu tui ship nha mấy ní. 
-						Còn ai là người quen tui hay gặp thì muốn ăn nói tui, nếu có tui cho ăn free. 
+					<div class="mb-4 footer-logo-wrap"><a href="#" class="footer-logo">Saroo Store<span>.</span></a>
+					</div>
+					<p class="mb-4">Trang này là project của tui làm để tự học nên zui lòng xem thui test thui đừng đặt
+						hàng rùi kêu tui ship nha mấy ní.
+						Còn ai là người quen tui hay gặp thì muốn ăn nói tui, nếu có tui cho ăn free.
 						À còn cái nữa là template này tui tải free về sửa lại chứ frontend tui gà lắm.</p>
 					<ul class="list-unstyled custom-social">
-						<li><a href="https://www.facebook.com/profile.php?id=100005544678147" target="_blank"><span class="fa fa-brands fa-facebook-f"></span></a></li>
-						<li><a href="https://www.tiktok.com/@saroo004"><span class="fa fa-brands fa-tiktok" target="_blank"></span></a></li>
-						<li><a href="https://github.com/Saroo-Coding"><span class="fa fa-brands fa-github" target="_blank"></span></a></li>
+						<li><a href="https://www.facebook.com/profile.php?id=100005544678147" target="_blank"><span
+									class="fa fa-brands fa-facebook-f"></span></a></li>
+						<li><a href="https://www.tiktok.com/@saroo004"><span class="fa fa-brands fa-tiktok"
+									target="_blank"></span></a></li>
+						<li><a href="https://github.com/Saroo-Coding"><span class="fa fa-brands fa-github"
+									target="_blank"></span></a></li>
 					</ul>
 				</div>
 

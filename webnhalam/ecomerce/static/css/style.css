@@ -310,6 +310,7 @@ a.more {
 }
 
 .product-section .product-item .product-thumbnail {
+  border-radius: 7%;
   margin-bottom: 30px;
   position: relative;
   top: 0;
@@ -372,7 +373,7 @@ a.more {
   background: #dce5e4;
   height: 0%;
   z-index: -1;
-  border-radius: 10px;
+  border-radius: 7%;
   -webkit-transition: .3s all ease;
   -o-transition: .3s all ease;
   transition: .3s all ease;

@@ -1,7 +1,7 @@
 {% extends "template.html" %}
 
 {% load static %}
-
+{% load humanize %}
 {% block body %}
 <!-- Start Why Choose Us Section -->
 <div class="why-choose-section">
@@ -56,62 +56,31 @@
 <div class="product-section pt-0">
     <div class="container">
         <div class="row">
-            <!-- Start Column 1 -->
+            
             <div class="col-md-12 col-lg-3 mb-5 mb-lg-0">
                 <h2 class="mb-4 section-title">Chế biến từ các nguyên liệu chất lượng.</h2>
                 <p class="mb-4">Được tui mua ở siêu thị gần nhà. Tự làm bảo đảm vệ sinh mà còn ngon, bổ, rẻ hehe.</p>
                 <p><a href="{% url 'shop' %}" class="btn">Khám phá ngay</a></p>
             </div>
-            <!-- End Column 1 -->
 
-            <!-- Start Column 2 -->
+            {% for x in topPro %}
             <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="product-item" href="#">
-                    <img src="images/product-1.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Nordic Chair</h3>
-                    <strong class="product-price">$50.00</strong>
+                <a class="product-item">
+                    <img src="{{x.imgpro}}" class="img-fluid product-thumbnail" alt="Product">
+                    <h3 class="product-title">{{x.name}}</h3>
+                    <strong class="product-price">{{ x.unitprice|floatformat:"0"|intcomma }}</strong>
 
                     <span class="icon-cross">
                         <img src="{% static 'images/cross.svg' %}" class="img-fluid">
                     </span>
                 </a>
             </div>
-            <!-- End Column 2 -->
-
-            <!-- Start Column 3 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="product-item" href="#">
-                    <img src="images/product-2.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Kruzo Aero Chair</h3>
-                    <strong class="product-price">$78.00</strong>
-
-                    <span class="icon-cross">
-                        <img src="images/cross.svg" class="img-fluid">
-                    </span>
-                </a>
-            </div>
-            <!-- End Column 3 -->
-
-            <!-- Start Column 4 -->
-            <div class="col-12 col-md-4 col-lg-3 mb-5 mb-md-0">
-                <a class="product-item" href="#">
-                    <img src="images/product-3.png" class="img-fluid product-thumbnail">
-                    <h3 class="product-title">Ergonomic Chair</h3>
-                    <strong class="product-price">$43.00</strong>
-
-                    <span class="icon-cross">
-                        <img src="images/cross.svg" class="img-fluid">
-                    </span>
-                </a>
-            </div>
-            <!-- End Column 4 -->
+            {% endfor %}
 
         </div>
     </div>
 </div>
 <!-- End Product Section -->
-
-
 
 <!-- Start Testimonial Slider -->
 <div class="testimonial-section before-footer-section">

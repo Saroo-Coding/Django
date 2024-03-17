@@ -1,0 +1,17 @@
+tạo file django
+tạo quản lý: py -m venv venv
+kích hoạt môi trường: mở cmd chạy venv\Scripts\activate.bat
+chạy: py -m pip install Django
+tạo project: django-admin startproject 'ten project'
+chạy: cd 'ten project'
+chạy project: py manage.py runserver
+
+(vào file project)
+tạo app: django-admin startapp 'ten app'(AnchorPorn)
+vào file setting.py thêm tên app vào installed-app
+trong app tạo folder chứa css, images, js, ...
+trong app tạo folder templates chứa html
+vào views.py tạo hàm return về html
+trong app tạo file urls.py import views trỏ tới hàm trong views
+trỏ url app về project: mở urls.py của project import include thêm path('', include('ten app.urls')) 
+
