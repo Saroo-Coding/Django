@@ -1,10 +1,16 @@
 {% extends "template.html" %}
 
 {% load static %}
-
+{% load humanize %}
 {% block body %}
 <div class="untree_co-section before-footer-section">
-    <div class="container">
+    <div class="container"> 
+        {% if not cart_list %}
+        <div style="text-align: center;">
+            <a href="{% url 'shop' %}" style="font-size: x-large; text-decoration: none;">Giỏ hàng của bạn đang trống 😥 <span style="color: #198754;">Click để mua sắm ngay 🛒</span></a>
+            <img src="{% static 'images/empty_cart.png' %}" class="img-fluid" alt="Saroo">
+        </div>
+        {% else %}
         <div class="row mb-5">
             <form class="col-md-12" method="post">
                 <div class="site-blocks-table">
@@ -19,32 +25,34 @@
                                 <th class="product-remove">Xóa</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
+                        <tbody style="font-size: larger;">
+                            {% for x in cart_list %}
+                            <tr id="row_{{x.iddetail}}">
                                 <td class="product-thumbnail">
-                                    <img src="images/product-1.png" alt="Image" class="img-fluid">
+                                    <img src="{{x.idpro.imgpro}}" alt="Product" class="img-fluid"
+                                        style="border-radius: 7%; max-width: 60%;">
                                 </td>
-                                <td class="product-name">Product 1</td>
-                                <td>$49.00</td>
+                                <td class="product-name">{{x.idpro.name}}</td>
+                                <td>{{ x.idpro.unitprice|floatformat:"0"|intcomma }}</td>
                                 <td style="text-align: -webkit-center;">
                                     <div class="input-group mb-3 d-flex align-items-center quantity-container"
                                         style="max-width: 120px;">
                                         <div class="input-group-prepend">
-                                            <button class="btn btn-outline-black decrease"
-                                                type="button">&minus;</button>
+                                            <button class="btn btn-outline-black decrease" type="button">&minus;</button>
                                         </div>
-                                        <input type="text" class="form-control text-center quantity-amount" value="1"
-                                            placeholder="" aria-label="Example text with button addon"
-                                            aria-describedby="button-addon1">
+                                        <input type="text" class="form-control text-center quantity-amount"
+                                            value="{{x.quantity}}" placeholder=""
+                                            aria-label="Number" data-product="{{x.iddetail}}" aria-describedby="button-addon1"
+                                            readonly>
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-black increase" type="button">&plus;</button>
                                         </div>
                                     </div>
-
                                 </td>
-                                <td>$49.00</td>
-                                <td><a href="#" class="btn btn-black btn-sm">X</a></td>
+                                <td id="total_{{x.iddetail}}">{{ x.total |floatformat:"0"|intcomma }}</td>
+                                <td><button class="btn btn-sm update-cart" type="button" data-product="{{x.iddetail}}" >X</button></td>
                             </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -54,23 +62,21 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="row mb-5">
-                    <div class="col-md-6 mb-3 mb-md-0">
-                        <button class="btn btn-black btn-sm btn-block">Update Cart</button>
-                    </div>
                     <div class="col-md-6">
-                        <button class="btn btn-outline-black btn-sm btn-block">Continue Shopping</button>
+                        <button class="btn" type="button" style="background-color: #0d6efd; border-color: #0d6efd"><a
+                                href="{% url 'shop' %}" style="text-decoration:none; color: white;">Quay
+                                lại</a></button>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <label class="text-black h4" for="coupon">Coupon</label>
-                        <p>Enter your coupon code if you have one.</p>
+                        <label class="text-black h4" for="coupon">Khuyến mãi</label>
                     </div>
                     <div class="col-md-8 mb-3 mb-md-0">
-                        <input type="text" class="form-control py-3" id="coupon" placeholder="Coupon Code">
+                        <input type="text" class="form-control py-3" id="coupon" placeholder="Mã khuyến mãi">
                     </div>
                     <div class="col-md-4">
-                        <button class="btn btn-black">Apply Coupon</button>
+                        <button class="btn" style="background-color: #ffc107; border-color: #ffc107;" type="button">Sử dụng</button>
                     </div>
                 </div>
             </div>
@@ -79,36 +85,37 @@
                     <div class="col-md-7">
                         <div class="row">
                             <div class="col-md-12 text-right border-bottom mb-5">
-                                <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
+                                <h3 class="text-black h4 text-uppercase">Giỏ hàng</h3>
                             </div>
                         </div>
-                        <div class="row mb-3">
+                        <div class="row mb-3" style="font-size: large;">
                             <div class="col-md-6">
-                                <span class="text-black">Subtotal</span>
+                                <span class="text-black">Tổng tiền</span>
                             </div>
                             <div class="col-md-6 text-right">
-                                <strong class="text-black">$230.00</strong>
+                                <strong class="text-black" id="lastTotal">{{total|floatformat:"0"|intcomma}} VND</strong>
                             </div>
                         </div>
-                        <div class="row mb-5">
+                        <div class="row mb-5" style="font-size: large;">
                             <div class="col-md-6">
-                                <span class="text-black">Total</span>
+                                <span class="text-black">Giảm giá</span>
                             </div>
                             <div class="col-md-6 text-right">
-                                <strong class="text-black">$230.00</strong>
+                                <strong class="text-black">0</strong>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-12">
-                                <button class="btn btn-black btn-lg py-3 btn-block"
-                                    onclick="window.location='checkout.html'">Proceed To Checkout</button>
+                                <button class="btn btn-lg py-3" style="background-color: #198754; border-color: #198754"
+                                    type="button"><a href="#" style="text-decoration:none; color: white;">Tiến hành thanh toán</a></button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

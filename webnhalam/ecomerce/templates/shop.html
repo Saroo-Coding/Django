@@ -14,8 +14,7 @@
                     <h3 class="product-title">{{x.name}}</h3>
                     <!-- <strong class="product-price">{{x.unitprice}}</strong> -->
                     <strong class="product-price">{{ x.unitprice|floatformat:"0"|intcomma }}</strong>
-
-                    <span class="icon-cross">
+                    <span class="icon-cross add-cart" data-product="{{x.idpro}}" data-action="add">
                         <img src="{% static 'images/cross.svg' %}" class="img-fluid">
                     </span>
                 </a>
