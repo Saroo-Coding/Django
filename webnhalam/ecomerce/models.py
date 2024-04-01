@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
-# tạo model từ db có sẵn: python manage.py inspectdb ra file models.py
+# tạo model từ db có sẵn: python manage.py inspectdb ( thêm > models.py ra file models.py )
 # còn nếu chưa có db thì tạo bằng cơm xong đẩy lên database ngược lại vs dòng trên 
 # Class khóa chính phải nằm trước class khóa phụ nếu class sau thì để 'nameClass'
 # python manage.py makemigrations và python manage.py migrate để update model
@@ -31,7 +31,7 @@ class Products(models.Model):
 class Payments(models.Model):
     idpay = models.BigAutoField(db_column='idPay', primary_key=True)  # Field name made lowercase.
     created_at = models.DateTimeField()
-    paytype = models.IntegerField(db_column='payType', blank=True, null=True)  # Field name made lowercase.
+    paytype = models.TextField(db_column='payType', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -49,15 +49,26 @@ class Customer(models.Model):
         managed = False
         db_table = 'customer'
 
+class Coupon(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    name = models.TextField(blank=True, null=True)
+    discount = models.IntegerField(blank=True, null=True)
+    idcus = models.ForeignKey(Customer, models.DO_NOTHING, db_column='idCus', blank=True, null=True)    
+    
+    class Meta:
+        managed = False
+        db_table = 'coupon'
 
 class Oder(models.Model):
     idoder = models.BigAutoField(db_column='idOder', primary_key=True)  # Field name made lowercase.
-    oderdate = models.DateField(db_column='oderDate')  # Field name made lowercase.
+    oderdate = models.DateTimeField(db_column='oderDate')  # Field name made lowercase.
     idcus = models.ForeignKey(Customer, models.DO_NOTHING, db_column='idCus', blank=True, null=True)  # Field name made lowercase.
     idpay = models.ForeignKey('Payments', models.DO_NOTHING, db_column='idPay', blank=True, null=True)  # Field name made lowercase.
     amount = models.FloatField(blank=True, null=True)
-    paydate = models.DateTimeField(db_column='payDate', blank=True, null=True)  # Field name made lowercase.
-
+    coupon = models.ForeignKey(Coupon, models.DO_NOTHING, db_column='coupon', blank=True, null=True)
+    total = models.FloatField(blank=True, null=True)
+    quantity = models.IntegerField(blank=True, null=True)
+    
     class Meta:
         managed = False
         db_table = 'oder'
@@ -69,7 +80,7 @@ class Cart(models.Model):
     quantity = models.BigIntegerField(blank=True, null=True)
     total = models.FloatField(blank=True, null=True)
     idcus = models.ForeignKey('Customer', models.DO_NOTHING, db_column='idCus', blank=True, null=True)  # Field name made lowercase.
-
+    idoder = models.ForeignKey('Oder', models.DO_NOTHING, db_column='idOder', blank=True, null=True)  # Field name made lowercase.
     class Meta:
         managed = False
         db_table = 'cart'

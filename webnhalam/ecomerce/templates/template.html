@@ -13,15 +13,16 @@
 	<link href="{% static 'css/tiny-slider.css' %}" rel="stylesheet">
 	<link href="{% static 'css/style.css' %}" rel="stylesheet">
 	<link href="{% static 'scss/style.scss' %}" rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.1.0/chartjs-plugin-datalabels.min.js"></script>
 	<title>Saroo</title>
 </head>
 
 <body>
-	<!-- Start Header/Navigation -->
 	<nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
 
 		<div class="container">
-			<a class="navbar-brand" href="{% url 'home' %}">Saroo Store<span>.</span></a>
+			<a class="navbar-brand" href="{% url 'homeshop' %}">Saroo Store<span>.</span></a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni"
 				aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
@@ -29,7 +30,7 @@
 
 			<div class="collapse navbar-collapse" id="navbarsFurni">
 				<ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-					<li class="nav-item active"><a class="nav-link" href="{% url 'home' %}">Trang chủ</a></li>
+					<li class="nav-item active"><a class="nav-link" href="{% url 'homeshop' %}">Trang chủ</a></li>
 					<li><a class="nav-link" href="{% url 'shop' %}">Sản phẩm</a></li>
 					<li><a class="nav-link" href="{% url 'services' %}">Dịch vụ</a></li>
 					<li><a class="nav-link" href="{% url 'contact' %}">Liên hệ</a></li>
@@ -43,8 +44,8 @@
 							{{user.username}}
 						</button>
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-							<li style="margin-right: 0px;"><a class="dropdown-item" href="#">Cá nhân</a></li>
-  							<li><a class="dropdown-item" href="#">Cài đặt</a></li>
+							<li style="margin-right: 0px;"><a class="dropdown-item" href="{% url 'profile' %}">Cá nhân</a></li>
+  							<li><a class="dropdown-item" href="{% url 'coupon' %}">Ưu đãi</a></li>
   							<li><a class="dropdown-item" href="{% url 'logout' %}">Đăng xuất</a></li>
 						</ul>
 					</div>

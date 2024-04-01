@@ -14,4 +14,3 @@ trong app tạo folder templates chứa html
 vào views.py tạo hàm return về html
 trong app tạo file urls.py import views trỏ tới hàm trong views
 trỏ url app về project: mở urls.py của project import include thêm path('', include('ten app.urls')) 
-

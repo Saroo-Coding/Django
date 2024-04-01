@@ -140,24 +140,24 @@
 
                     <li class="service-item">
                         <div class="service-icon-box">
-                            <img src="{% static 'images/icon-ai.svg' %}" alt="design icon" width="40">
-                        </div>
-                        <div class="service-content-box">
-                            <h4 class="h4 service-item-title">AI Developer</h4>
-                            <p class="service-item-text">
-                                Take on important tasks, provide artificial intelligence solutions.
-                            </p>
-                        </div>
-                    </li>
-
-                    <li class="service-item">
-                        <div class="service-icon-box">
                             <img src="{% static 'images/data-storage.svg' %}" alt="mobile app icon" width="40">
                         </div>
                         <div class="service-content-box">
                             <h4 class="h4 service-item-title">Database Developer</h4>
                             <p class="service-item-text">
                                 Design, develop structure, manage, and test databases.
+                            </p>
+                        </div>
+                    </li>
+
+                    <li class="service-item">
+                        <div class="service-icon-box">
+                            <img src="{% static 'images/icon-ai.svg' %}" alt="design icon" width="40">
+                        </div>
+                        <div class="service-content-box">
+                            <h4 class="h4 service-item-title">AI Developer</h4>
+                            <p class="service-item-text">
+                                Take on important tasks, provide artificial intelligence solutions.
                             </p>
                         </div>
                     </li>
@@ -385,7 +385,7 @@
                                 <div class="project-item-icon-box">
                                     <ion-icon name="eye-outline"></ion-icon>
                                 </div>
-                                <img src="{% static 'images/logo-SS.jpg' %}" alt="fundo" loading="lazy">
+                                <img src="{% static 'images/logo-SS.jpg' %}" alt="fundo" >
                             </figure>
                             <h3 class="project-title">Saroo Store</h3>
                         </a>
@@ -399,7 +399,7 @@
                                     <ion-icon name="eye-outline"></ion-icon>
                                 </div>
 
-                                <img src="" alt="brawlhalla" loading="lazy">
+                                <img src="" alt="brawlhalla" >
                             </figure>
 
                             <h3 class="project-title">Brawlhalla</h3>
@@ -417,7 +417,7 @@
                                     <ion-icon name="eye-outline"></ion-icon>
                                 </div>
 
-                                <img src="" alt="dsm." loading="lazy">
+                                <img src="" alt="dsm." >
                             </figure>
 
                             <h3 class="project-title">DSM.</h3>
@@ -435,7 +435,7 @@
                                     <ion-icon name="eye-outline"></ion-icon>
                                 </div>
 
-                                <img src="" alt="metaspark" loading="lazy">
+                                <img src="" alt="metaspark" >
                             </figure>
 
                             <h3 class="project-title">MetaSpark</h3>
@@ -453,7 +453,7 @@
                                     <ion-icon name="eye-outline"></ion-icon>
                                 </div>
 
-                                <img src="" alt="summary" loading="lazy">
+                                <img src="" alt="summary" >
                             </figure>
 
                             <h3 class="project-title">Summary</h3>
@@ -471,7 +471,7 @@
                                     <ion-icon name="eye-outline"></ion-icon>
                                 </div>
 
-                                <img src="" alt="task manager" loading="lazy">
+                                <img src="" alt="task manager" >
                             </figure>
 
                             <h3 class="project-title">Task Manager</h3>
@@ -489,7 +489,7 @@
                                     <ion-icon name="eye-outline"></ion-icon>
                                 </div>
 
-                                <img src="" alt="arrival" loading="lazy">
+                                <img src="" alt="arrival" >
                             </figure>
 
                             <h3 class="project-title">Arrival</h3>
@@ -519,7 +519,7 @@
 
                             <figure class="blog-banner-box">
                                 <img src="" alt="Design conferences in 2022"
-                                    loading="lazy">
+                                    >
                             </figure>
 
                             <div class="blog-content">
@@ -548,7 +548,7 @@
 
                             <figure class="blog-banner-box">
                                 <img src="" alt="Best fonts every designer"
-                                    loading="lazy">
+                                    >
                             </figure>
 
                             <div class="blog-content">
@@ -576,7 +576,7 @@
                         <a href="#">
 
                             <figure class="blog-banner-box">
-                                <img src="" alt="Design digest #80" loading="lazy">
+                                <img src="" alt="Design digest #80" >
                             </figure>
 
                             <div class="blog-content">
@@ -606,7 +606,7 @@
 
                             <figure class="blog-banner-box">
                                 <img src="" alt="UI interactions of the week"
-                                    loading="lazy">
+                                    >
                             </figure>
 
                             <div class="blog-content">
@@ -636,7 +636,7 @@
 
                             <figure class="blog-banner-box">
                                 <img src="" alt="The forgotten art of spacing"
-                                    loading="lazy">
+                                    >
                             </figure>
 
                             <div class="blog-content">
@@ -665,7 +665,7 @@
                         <a href="#">
 
                             <figure class="blog-banner-box">
-                                <img src="" alt="Design digest #79" loading="lazy">
+                                <img src="" alt="Design digest #79" >
                             </figure>
 
                             <div class="blog-content">
@@ -706,13 +706,13 @@
 
             <section class="contact-form">
                 <h3 class="h3 form-title">Contact From</h3>
-                <form action="#" class="form" data-form>
+                <form>
                     <div class="input-wrapper">
-                        <input type="text" name="fullname" class="form-input" placeholder="Full name" required data-form-input>
-                        <input type="email" name="email" class="form-input" placeholder="Email address" required data-form-input>
+                        <input type="text" id="fullname" class="form-input" placeholder="Full name" required>
+                        <input type="email" id="email" class="form-input" placeholder="Email address" required>
                     </div>
-                    <textarea name="message" class="form-input" placeholder="Your Message" required data-form-input></textarea>
-                    <button class="form-btn" type="submit" disabled data-form-btn>
+                    <textarea id="message" class="form-input" placeholder="Your Message" required></textarea>
+                    <button class="form-btn" type="button" id="submit">
                         <ion-icon name="paper-plane"></ion-icon>
                         <span>Send</span>
                     </button>

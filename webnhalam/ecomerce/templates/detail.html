@@ -22,35 +22,19 @@
                                 <th class="product-price">Giá</th>
                                 <th class="product-quantity">Số lượng</th>
                                 <th class="product-total">Tổng tiền</th>
-                                <th class="product-remove">Xóa</th>
                             </tr>
                         </thead>
                         <tbody style="font-size: larger;">
                             {% for x in cart_list %}
-                            <tr id="row_{{x.iddetail}}">
+                            <tr>
                                 <td class="product-thumbnail">
                                     <img src="{{x.idpro.imgpro}}" alt="Product" class="img-fluid"
                                         style="border-radius: 7%; max-width: 60%;">
                                 </td>
                                 <td class="product-name">{{x.idpro.name}}</td>
                                 <td>{{ x.idpro.unitprice|floatformat:"0"|intcomma }}</td>
-                                <td style="text-align: -webkit-center;">
-                                    <div class="input-group mb-3 d-flex align-items-center quantity-container"
-                                        style="max-width: 120px;">
-                                        <div class="input-group-prepend">
-                                            <button class="btn btn-outline-black decrease" type="button">&minus;</button>
-                                        </div>
-                                        <input type="text" class="form-control text-center quantity-amount"
-                                            value="{{x.quantity}}" placeholder=""
-                                            aria-label="Number" data-product="{{x.iddetail}}" aria-describedby="button-addon1"
-                                            readonly>
-                                        <div class="input-group-append">
-                                            <button class="btn btn-outline-black increase" type="button">&plus;</button>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td id="total_{{x.iddetail}}">{{ x.total |floatformat:"0"|intcomma }}</td>
-                                <td><button class="btn btn-sm update-cart" type="button" data-product="{{x.iddetail}}" >X</button></td>
+                                <td style="text-align: -webkit-center;">{{x.quantity}}</td>
+                                <td>{{ x.total |floatformat:"0"|intcomma }}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -64,34 +48,44 @@
                 <div class="row mb-5">
                     <div class="col-md-6">
                         <button class="btn" type="button" style="background-color: #0d6efd; border-color: #0d6efd"><a
-                                href="{% url 'shop' %}" style="text-decoration:none; color: white;">Quay lại</a></button>
+                                href="{% url 'profile' %}" style="text-decoration:none; color: white;">Quay lại</a></button>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 pl-5">
                 <div class="row justify-content-end">
                     <div class="col-md-7">
-                        <div class="row">
-                            <div class="col-md-12 text-right border-bottom mb-4">
-                                <h3 class="text-black h4 text-uppercase">Giỏ hàng</h3>
-                            </div>
-                        </div>
                         <div class="row mb-3" style="font-size: large;">
                             <div class="col-md-6">
                                 <span class="text-black">Tổng tiền</span>
                             </div>
                             <div class="col-md-6 text-right">
-                                <strong class="text-black" id="lastTotal">{{total|floatformat:"0"|intcomma}} VND</strong>
-                            </div>
-                        </div>
-                        
-                        <div class="row" style="padding-top: 10%;">
-                            <div class="col-md-12">
-                                <button class="btn btn-lg py-3" style="background-color: #198754; border-color: #198754"
-                                    type="button"><a href="{% url 'bill' %}" style="text-decoration:none; color: white;">Tiến hành thanh toán</a></button>
+                                <strong class="text-black" id="lastTotal">{{bill.amount|floatformat:"0"|intcomma}} VND</strong>
                             </div>
                         </div>
                     </div>
+                    {% if bill.coupon.name %}
+                    <div class="col-md-7">
+                        <div class="row mb-3" style="font-size: large;">
+                            <div class="col-md-6">
+                                <span class="text-black">Code: {{bill.coupon.name}}</span>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <strong class="text-black" id="lastTotal">{{bill.coupon.discount}}%</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="row mb-3" style="font-size: large;">
+                            <div class="col-md-6">
+                                <span class="text-black">Thành tiền</span>
+                            </div>
+                            <div class="col-md-6 text-right">
+                                <strong class="text-black" id="lastTotal">{{bill.total|floatformat:"0"|intcomma}} VND</strong>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

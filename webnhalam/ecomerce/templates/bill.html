@@ -1,0 +1,203 @@
+{% extends "template.html" %}
+
+{% load static %}
+{% load humanize %}
+{% block body %}
+<div style="padding: 4% 4% 7% 4%; color: black;">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card position-sticky top-0">
+                <div class="p-3 bg-light bg-opacity-10">
+                    <h6 class="card-title mb-3" style="text-align: center; margin-bottom: unset;">Chi tiết</h6>
+                    <div class="row">
+                        <div>
+                            <table class="table" style="text-align: center;">
+                                <thead>
+                                    <tr>
+                                        <th>Sản phẩm</th>
+                                        <th>Số lượng</th>
+                                        <th>Thành tiền</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for x in cart_list %}
+                                    <tr>
+                                        <td>{{x.idpro.name}}</td>
+                                        <td>{{x.quantity}}</td>
+                                        <td>{{ x.total |floatformat:"0"|intcomma }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    <tr style="border-bottom: white; font-weight: 600; border-width: 2px 0 0 0; border-style: inherit;">
+                                        <td></td>
+                                        <td style="border-color:#dee2e6;">Tổng tiền</td>
+                                        <td style="border-color:#dee2e6;">{{total|floatformat:"0"|intcomma}}</td>
+                                    </tr>
+                                    <tr class="coupon" style="border-bottom: white; font-weight: 600; border-width: 1px 0 0 0; border-style: inherit;">
+                                        <td></td>
+                                        <td style="border-color:#dee2e6;">Giảm giá</td>
+                                        <td style="border-color:#dee2e6;" id="dis"></td>
+                                    </tr>
+                                    <tr class="coupon" style="border-bottom: white; font-weight: 600;">
+                                        <td></td>
+                                        <td>Thành tiền</td>
+                                        <td id="newTotal"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="mb-4" style="display: flex;justify-content: space-between;">
+                        <div style="padding-right: 2%; width: -webkit-fill-available">
+                            <input type="search" class="form-control py-3" id="coupon" placeholder="Mã khuyến mãi" style="font-size: inherit;">
+                            <script>
+                                var inputField = document.getElementById('coupon');
+                                inputField.addEventListener('input', function() {
+                                    this.value = this.value.toUpperCase();
+                                    if(this.value === ''){
+                                            document.getElementById('dis').innerHTML = ''
+				                            document.getElementById('newTotal').innerHTML = ''
+                                    }
+                                });
+                                inputField.addEventListener('change', function() {
+                                    document.getElementById('dis').innerHTML = ''
+				                    document.getElementById('newTotal').innerHTML = ''
+                                });
+                            </script>
+                        </div>
+                        <div>
+                            <button class="coupon-btn" style="border: none;padding: 12px 20px;border-radius: 10px;font-weight: 600;background-color: #ffc107;color: white;" type="button">Coupon</button>
+                        </div>
+                    </div>
+                    <form>
+                        <div class="form-check mb-1 small">
+                            <input class="form-check-input" type="checkbox" value id="tnc" required>
+                            <label class="form-check-label" for="tnc">Tôi đồng ý với các điều khoản và điều kiện.</label>
+                        </div>
+                        <button class="btn btn-primary w-100 mt-2 pay" type="submit">Thanh toán</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8">
+            <div class="accordion" id="accordionPayment">
+                <div class="accordion-item mb-3">
+                    <h2 class="h5 px-4 py-3 accordion-header d-flex justify-content-between align-items-center">
+                        <div class="form-check w-100 collapsed" data-bs-toggle="collapse"
+                            data-bs-target="#collapseMM">
+                            <input class="form-check-input radio-option" type="radio" name="payment" title value="1" checked>
+                            <label class="form-check-label pt-1">
+                                Thanh toán khi nhận hàng
+                            </label>
+                        </div>
+                        <span>
+                            <img src="{%static 'images/payMoney.svg' %}" alt="Saroo" class="imf-fluid" width="30px">
+                        </span>
+                    </h2>
+                    <div id="collapseMM" class="accordion-collapse collapse show" data-bs-parent="#accordionPayment" style>
+                        <div class="accordion-body">
+                            <div class="mb-3">
+                                <label class="form-label">Địa chỉ giao hàng</label>
+                                <input type="text" class="form-control" placeholder>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Họ và tên</label>
+                                        <input type="text" class="form-control" placeholder value="{{cus.lastname}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Số điện thoại</label>
+                                        <input type="number" class="form-control" placeholder value="{{cus.phone}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item mb-3">
+                    <h2 class="h5 px-4 py-3 accordion-header d-flex justify-content-between align-items-center">
+                        <div class="form-check w-100 collapsed" data-bs-toggle="collapse"
+                            data-bs-target="#collapseCC">
+                            <input class="form-check-input radio-option" type="radio" name="payment" title value="2">
+                            <label class="form-check-label pt-1">
+                                Thẻ tín dụng
+                            </label>
+                        </div>
+                        <span>
+                            <svg width="34" height="25" xmlns="http://www.w3.org/2000/svg">
+                                <g fill-rule="nonzero" fill="#333840">
+                                    <path
+                                        d="M29.418 2.083c1.16 0 2.101.933 2.101 2.084v16.666c0 1.15-.94 2.084-2.1 2.084H4.202A2.092 2.092 0 0 1 2.1 20.833V4.167c0-1.15.941-2.084 2.102-2.084h25.215ZM4.203 0C1.882 0 0 1.865 0 4.167v16.666C0 23.135 1.882 25 4.203 25h25.215c2.321 0 4.203-1.865 4.203-4.167V4.167C33.62 1.865 31.739 0 29.418 0H4.203Z">
+                                    </path>
+                                    <path
+                                        d="M4.203 7.292c0-.576.47-1.042 1.05-1.042h4.203c.58 0 1.05.466 1.05 1.042v2.083c0 .575-.47 1.042-1.05 1.042H5.253c-.58 0-1.05-.467-1.05-1.042V7.292Zm0 6.25c0-.576.47-1.042 1.05-1.042H15.76c.58 0 1.05.466 1.05 1.042 0 .575-.47 1.041-1.05 1.041H5.253c-.58 0-1.05-.466-1.05-1.041Zm0 4.166c0-.575.47-1.041 1.05-1.041h2.102c.58 0 1.05.466 1.05 1.041 0 .576-.47 1.042-1.05 1.042H5.253c-.58 0-1.05-.466-1.05-1.042Zm6.303 0c0-.575.47-1.041 1.051-1.041h2.101c.58 0 1.051.466 1.051 1.041 0 .576-.47 1.042-1.05 1.042h-2.102c-.58 0-1.05-.466-1.05-1.042Zm6.304 0c0-.575.47-1.041 1.051-1.041h2.101c.58 0 1.05.466 1.05 1.041 0 .576-.47 1.042-1.05 1.042h-2.101c-.58 0-1.05-.466-1.05-1.042Zm6.304 0c0-.575.47-1.041 1.05-1.041h2.102c.58 0 1.05.466 1.05 1.041 0 .576-.47 1.042-1.05 1.042h-2.101c-.58 0-1.05-.466-1.05-1.042Z">
+                                    </path>
+                                </g>
+                            </svg>
+                        </span>
+                    </h2>
+                    <div id="collapseCC" class="accordion-collapse collapse" data-bs-parent="#accordionPayment"
+                        style>
+                        <div class="accordion-body">
+                            <div class="mb-3">
+                                <label class="form-label">Số thẻ</label>
+                                <input type="text" class="form-control" placeholder value="">
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Họ tên chủ thẻ</label>
+                                        <input type="text" id="cardName" class="form-control" placeholder="Tên trên thẻ" value="">
+                                    </div>
+                                </div>
+                                <script>
+                                    var input = document.getElementById('cardName');
+                                    input.addEventListener('input', function() {
+                                        this.value = this.value.toUpperCase();
+                                    });
+                                </script>
+                                <div class="col-lg-3">
+                                    <div class="mb-3">
+                                        <label class="form-label">Ngày hết hạn</label>
+                                        <input type="text" class="form-control" placeholder="MM/YY" value="">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="mb-3">
+                                        <label class="form-label">Mã CVV</label>
+                                        <input type="number" class="form-control" placeholder="CVV" value="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item mb-3 border">
+                    <h2 class="h5 px-4 py-3 accordion-header d-flex justify-content-between align-items-center">
+                        <div class="form-check w-100 collapsed" data-bs-toggle="collapse"
+                            data-bs-target="#collapsePP">
+                            <input class="form-check-input radio-option" type="radio" name="payment" title value="3">
+                            <label class="form-check-label pt-1">
+                                Momo
+                            </label>
+                        </div>
+                        <span>
+                            <img src="{%static 'images/logoMomo.svg' %}" alt="Momo" class="imf-fluid" style="width: 32px;">
+                        </span>
+                    </h2>
+                    <div id="collapsePP" class="accordion-collapse collapse" data-bs-parent="#accordionPayment" style>
+                        <div class="accordion-body" style="display: flex; justify-content: center;" >
+                            <img src="{%static 'images/QRmomo.png' %}" alt="Saroo" class="imf-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

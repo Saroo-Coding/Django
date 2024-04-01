@@ -61,29 +61,29 @@
 
                     <form>
                         <div class="row">
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label class="text-black" for="fname">Họ</label>
-                                    <input type="text" class="form-control" id="fname">
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label class="text-black" for="lname">Tên</label>
-                                    <input type="text" class="form-control" id="lname">
-                                </div>
+                            <div class="form-group">
+                                <label class="text-black" for="lname">Họ và tên</label>
+                                {% if user.is_authenticated %}
+                                <input type="text" class="form-control" id="name" value="{{user.username}}">
+                                {% else %}
+                                <input type="text" class="form-control" id="name">
+                                {% endif %}
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="text-black" for="email">Địa chỉ email</label>
+                            {% if user.is_authenticated %}
+                            <input type="email" class="form-control" id="email" value="{{user.email}}">
+                            {% else %}
                             <input type="email" class="form-control" id="email">
+                            {% endif %}
                         </div>
 
                         <div class="form-group mb-5">
                             <label class="text-black" for="message">Lời nhắn góp ý</label>
                             <textarea name="" class="form-control" id="message" cols="30" rows="5"></textarea>
                         </div>
-                        <button title="submit" type="submit" class="btn btn-primary-hover-outline">Gửi</button>
+                        <button title="submit" type="button" class="btn btn-primary-hover-outline" id="submit">Gửi</button>
                     </form>
                 </div>
             </div>

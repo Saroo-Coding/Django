@@ -63,6 +63,8 @@
 
 var addSpans = document.getElementsByClassName('add-cart')
 var updateBtn = document.getElementsByClassName('update-cart') // lấy btn xóa thui
+var coupon = document.getElementsByClassName('coupon-btn') //btn dùng coupon
+var pay = document.getElementsByClassName('pay') //btn dùng coupon
 
 //Thêm product mới
 for (i = 0; i < addSpans.length; i++) {
@@ -97,7 +99,6 @@ function addProUserOder(product){
 for (i = 0; i < updateBtn.length; i++) {
 	updateBtn[i].addEventListener('click', function(){ //nghe su kien click
 		var idDetail = this.dataset.product //lay id product
-
 		updateCart(idDetail,'remove')
 	})
 }
@@ -124,3 +125,108 @@ function updateCart(idDetail, acction){
 		}
 	})
 }
+
+// coupon
+for (i = 0; i < coupon.length; i++) {
+	coupon[i].addEventListener('click', function(){ //nghe su kien click
+		nameCoupon = inputField.value
+		fetch('/Ecomerce/addCoupon/',{
+			method: 'POST',
+			headers:{
+				'Content-Type':'application/json',
+				'X-CSRFToken': csrftoken
+			},
+			body:JSON.stringify({'name':nameCoupon})
+		})
+		.then((response) => {
+			return response.json()
+		})
+		.then((data) => {
+			if(Object.keys(data).length === 0 && data.constructor === Object){
+				document.getElementById('dis').innerHTML = ''
+				document.getElementById('newTotal').innerHTML = ''
+				alert("Mã khuyến mãi không hợp lệ !!!")
+			}
+			else{
+				document.getElementById('dis').innerHTML = data.dis + '%'
+				document.getElementById('newTotal').innerHTML = data.newTotal.toLocaleString('en-US')
+			}
+		})
+	})
+}
+
+//pay
+for (i = 0; i < pay.length; i++) {
+	pay[i].addEventListener('click', function(event){ //nghe su kien click
+		event.preventDefault();
+		var radios = document.querySelectorAll('.radio-option');
+		var selectedValue = null;
+		radios.forEach(function(radio) {
+			if (radio.checked) {
+			selectedValue = radio.value;
+			return;
+			}
+		});
+
+		if (selectedValue !== null) {
+			fetch('/Ecomerce/pay/',{
+				method: 'POST',
+				headers:{
+					'Content-Type':'application/json',
+					'X-CSRFToken': csrftoken
+				},
+				body:JSON.stringify({'idPay':selectedValue, "idCoupon":document.getElementById('coupon').value})
+			})
+			.then((response) => {
+				return response.json()
+			})
+			.then(() => {
+				alert('Cảm ơn bạn đã tin yêu tui !!!');
+				window.location.href = "/Ecomerce"
+			})
+		} else {
+			alert('Vui lòng chọn phương thức thanh toán !!!');
+		}
+	})
+}
+
+
+// Contact
+document.addEventListener("DOMContentLoaded", () => {
+	const name = document.getElementById("name")
+	const email = document.getElementById("email")
+	const mess = document.getElementById("message")
+	const submit = document.getElementById("submit")
+	if(submit){
+		submit.addEventListener("click", (e) => {
+		  e.preventDefault();
+		  const data = {
+			name: name.value,
+			email: email.value,
+			mess: mess.value
+		  };
+		  // postForm(data);
+		  const formData = {
+			'entry.751748849': data.name,
+			'entry.346363371': data.email,
+			'entry.1111552543': data.mess
+		  };
+	  
+		  // Chuyển đổi đối tượng formData thành chuỗi query string
+		  const params = new URLSearchParams(formData).toString();
+	  
+		  // URL của biểu mẫu Google Forms
+		  const formURL = 'https://docs.google.com/forms/d/e/1FAIpQLSfQeW9PnHgkTrejZZQ_Zfrt3mSSaxCM-OFv9ytct5hXsO65Vg/formResponse';
+	  
+		  // Tạo URL hoàn chỉnh bao gồm dữ liệu biểu mẫu
+		  const fullURL = `${formURL}?${params}`;
+	  
+		  // Gửi yêu cầu đến URL hoàn chỉnh
+		  fetch(fullURL, { method: 'POST', mode:'no-cors' })
+		  name.value = ''
+		  email.value = ''
+		  mess.value = ''
+		  alert('Cảm ơn bạn đã liên hệ với tôi! Tôi sẽ sớm phản hồi cho bạn.')
+		});
+	}
+  });

@@ -1,0 +1,63 @@
+{% extends "template.html" %}
+
+{% load static %}
+{% load humanize %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-xl" style="margin-bottom: 8%; margin-top: 2%; color: black;">
+            <div class="card">
+                <div style="padding: 1rem 1rem;">
+                    <div class="row align-items-center">
+                        <div class="col-md-3 text-center border-end">
+                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-fluid rounded-circle" alt style="height: 7rem; width: 7rem;">
+                            <h4 class="font-size-20 mt-3">{{cus.lastname}}</h4>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="ms-3">
+                                <h4 class="font-size-20 mt-3">{{cus.lastname}}</h4>
+                                <div style="font-size: medium;">
+                                    <p><i class="fa fa-envelope" style="margin-right: 5px;"></i><a>{{cus.email}}</a></p>
+                                    <p><i class="fa fa-phone" style="margin-right: 5px;"></i>{{cus.phone}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 text-center border-start">
+                            <button type="button" title="button" style="border: none; background-color: white;"><i class="fa fa-pencil" style="font-size: x-large;"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="tab-content p-4">
+                    <div class="tab-pane active show">
+                        <h4 class="card-title mb-4">Đơn mua hàng</h4>
+                        <!-- day -->
+                        {% for x in bill %}
+                        <div class="row mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col-xl-5 col-sm-5">
+                                            <label class="form-check-label ms-1 task-title" for="customCheck1">Mã hóa đơn: {{x.idoder}}</label><br>
+                                            <label class="form-check-label ms-1 task-title" for="customCheck1">Ngày thanh toán: {{x.oderdate|date:"d/m/Y"}} {{x.oderdate|time:"H:i:s"}}</label>
+                                        </div>
+                                        <div class="col-xl-5 col-sm-5">
+                                            <label class="form-check-label ms-1 task-title" for="customCheck1">Số lượng: {{x.quantity}}</label><br>
+                                            <label class="form-check-label ms-1 task-title" for="customCheck1">Tổng tiền: {{x.total|floatformat:"0"|intcomma}} VND</label>
+                                        </div>
+                                        <div class="col-xl-2 col-sm-5" style="text-align: end;">
+                                            <a href="{% url 'detail' x.idoder %}"><i class="fa fa-shopping-cart" style="font-size: x-large;"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

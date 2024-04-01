@@ -16,7 +16,32 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 </head>
+<style>
+    #message {
+        margin-left: 15px;
+        display: none;
+    }
 
+    .valid {
+        color: green;
+    }
+
+    .valid:before {
+        position: relative;
+        left: -10px;
+        content: "\2714";
+    }
+
+    .invalid {
+        color: red;
+    }
+
+    .invalid:before {
+        position: relative;
+        left: -10px;
+        content: "\2716";
+    }
+</style>
 <body>
     <div class="limiter">
         <div class="container-login100">
@@ -56,12 +81,19 @@
                     </div>
                     
                     <div class="wrap-input100 validate-input" data-validate="Password is required">
-                        <input class="input100" type="password" name="pass" placeholder="Password">
+                        <input class="input100" type="password" name="pass" placeholder="Password" id="psw" autocomplete="off" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
                         <span class="focus-input100"></span>
                         <span class="symbol-input100">
                             <i class="fa fa-lock" aria-hidden="true"></i>
                         </span>
                     </div>
+                    <div id="message">
+                        <p id="length" class="invalid">Ít nhất 8 ký tự</b></p>
+                        <p id="number" class="invalid">Chứa ít nhất một ký tự số</p>
+                        <p id="letter" class="invalid">Chứa ít nhất một chữ cái <b>viết thường</b></p>
+                        <p id="capital" class="invalid">Chứa ít nhất một chữ cái <b>viết hoa</b></p>
+                    </div>
+
                     {% if messages %}
                     <ul style="color: red; text-align: center; font-size: 13px;">
                         {% for message in messages %}
@@ -70,13 +102,13 @@
                     </ul>
                     {% endif %}
                     <div class="container-login100-form-btn">
-                        <button class="login100-form-btn">
+                        <button class="login100-form-btn" type="submit">
                             Login
                         </button>
                     </div>
 
                     <div class="text-center p-t-136">
-                        <a class="txt2" href="{% url 'home' %}">
+                        <a class="txt2" href="{% url 'homeshop' %}">
                             <i class="fa fa-long-arrow-left m-l-5" aria-hidden="true"></i>
                             Keep shoping
                         </a>
@@ -100,9 +132,65 @@
         $('.js-tilt').tilt({
             scale: 1.1
         })
+        var myInput = document.getElementById("psw");
+            var letter = document.getElementById("letter");
+            var capital = document.getElementById("capital");
+            var number = document.getElementById("number");
+            var length = document.getElementById("length");
+
+            // When the user clicks on the password field, show the message box
+            myInput.onfocus = function () {
+                document.getElementById("message").style.display = "block";
+            }
+
+            // When the user clicks outside of the password field, hide the message box
+            myInput.onblur = function () {
+                document.getElementById("message").style.display = "none";
+            }
+
+            // When the user starts to type something inside the password field
+            myInput.onkeyup = function () {
+                // Validate lowercase letters
+                var lowerCaseLetters = /[a-z]/g;
+                if (myInput.value.match(lowerCaseLetters)) {
+                    letter.classList.remove("invalid");
+                    letter.classList.add("valid");
+                } else {
+                    letter.classList.remove("valid");
+                    letter.classList.add("invalid");
+                }
+
+                // Validate capital letters
+                var upperCaseLetters = /[A-Z]/g;
+                if (myInput.value.match(upperCaseLetters)) {
+                    capital.classList.remove("invalid");
+                    capital.classList.add("valid");
+                } else {
+                    capital.classList.remove("valid");
+                    capital.classList.add("invalid");
+                }
+
+                // Validate numbers
+                var numbers = /[0-9]/g;
+                if (myInput.value.match(numbers)) {
+                    number.classList.remove("invalid");
+                    number.classList.add("valid");
+                } else {
+                    number.classList.remove("valid");
+                    number.classList.add("invalid");
+                }
+
+                // Validate length
+                if (myInput.value.length >= 8) {
+                    length.classList.remove("invalid");
+                    length.classList.add("valid");
+                } else {
+                    length.classList.remove("valid");
+                    length.classList.add("invalid");
+                }
+            }
     </script>
     <script src="{% static 'js/main.js' %}"></script>
-
 </body>
 
 </html>

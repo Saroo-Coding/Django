@@ -109,29 +109,6 @@ for (let i = 0; i < filterBtn.length; i++) {
 
 }
 
-
-
-// contact form variables
-const form = document.querySelector("[data-form]");
-const formInputs = document.querySelectorAll("[data-form-input]");
-const formBtn = document.querySelector("[data-form-btn]");
-
-// add event to all form input field
-for (let i = 0; i < formInputs.length; i++) {
-  formInputs[i].addEventListener("input", function () {
-
-    // check form validation
-    if (form.checkValidity()) {
-      formBtn.removeAttribute("disabled");
-    } else {
-      formBtn.setAttribute("disabled", "");
-    }
-
-  });
-}
-
-
-
 // page navigation variables
 const navigationLinks = document.querySelectorAll("[data-nav-link]");
 const pages = document.querySelectorAll("[data-page]");
@@ -153,3 +130,42 @@ for (let i = 0; i < navigationLinks.length; i++) {
 
   });
 }
+
+
+// Contact
+document.addEventListener("DOMContentLoaded", () => {
+  const name = document.getElementById("fullname")
+  const email = document.getElementById("email")
+  const mess = document.getElementById("message")
+  const submit = document.getElementById("submit")
+  submit.addEventListener("click", (e) => {
+    e.preventDefault();
+    const data = {
+      name: name.value,
+      email: email.value,
+      mess: mess.value
+    };
+    // postForm(data);
+    const formData = {
+      'entry.751748849': data.name,
+      'entry.346363371': data.email,
+      'entry.1111552543': data.mess
+    };
+
+    // Chuyển đổi đối tượng formData thành chuỗi query string
+    const params = new URLSearchParams(formData).toString();
+
+    // URL của biểu mẫu Google Forms
+    const formURL = 'https://docs.google.com/forms/d/e/1FAIpQLSfQeW9PnHgkTrejZZQ_Zfrt3mSSaxCM-OFv9ytct5hXsO65Vg/formResponse';
+
+    // Tạo URL hoàn chỉnh bao gồm dữ liệu biểu mẫu
+    const fullURL = `${formURL}?${params}`;
+
+    // Gửi yêu cầu đến URL hoàn chỉnh
+    fetch(fullURL, { method: 'POST', mode:'no-cors' })
+    name.value = ''
+    email.value = ''
+    mess.value = ''
+    alert('Cảm ơn bạn đã liên hệ với tôi! Tôi sẽ sớm phản hồi cho bạn.')
+  });
+});
