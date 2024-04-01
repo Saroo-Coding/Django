@@ -3,10 +3,6 @@ from django.http import HttpResponse
 import random
 import string
 
-def VN_home(request):
-    context = {'item' : 123}
-    return render(request,'VN_home.html',context)
-
 def US_home(request):
     return render(request,'US_home.html')
 

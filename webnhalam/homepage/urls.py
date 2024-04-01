@@ -3,8 +3,6 @@ from . import views
 
 urlpatterns = [
     path('', views.US_home, name='home'),
-    path('us/', views.US_home, name='us'),
-    path('vn/', views.VN_home, name='vn'),
     path('Calculator/', views.calculator, name='calculator'),
     #Rock Paper Scissors
     path('RockPaperScissors/', views.RPSGame, name='RPSGame'),
