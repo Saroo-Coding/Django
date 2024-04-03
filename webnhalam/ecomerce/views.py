@@ -41,11 +41,11 @@ def shop(request):
         name = request.POST.get('namePro')
         if not name : name = Q()
 
-        filterPro = Products.objects.filter(unitprice__gte=0, unitprice__lte=price, idcategory = category, name__icontains = name)
+        filterPro = Products.objects.filter(unitprice__gte=0, unitprice__lte=price, idcategory = category, name__icontains = name).order_by('idpro')
         paginator = Paginator(filterPro, 8 ) #Lấy 8 pro mỗi trang
         pro = paginator.get_page(page_number)
     else:
-        allPro = Products.objects.all()
+        allPro = Products.objects.all().order_by('idpro')
         paginator = Paginator(allPro, 8 ) #Lấy 8 pro mỗi trang
         pro = paginator.get_page(page_number)
         
