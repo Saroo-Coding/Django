@@ -2,15 +2,20 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RockPaperScissors</title>
     <link rel="stylesheet" href="{% static 'css/RPSGame.css' %}">
     <link rel="shortcut icon" href="{% static 'images/logoHome.png' %}">
-    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 </head>
-<body>
+
+<body style="background: hsl(0deg 0% 7.06%);">
     <header style="padding: 10px;">
         <nav>
             <div class="navigation">
@@ -18,11 +23,11 @@
             </div>
         </nav>
     </header>
-    
-    <div class="container">
+
+    <div class="container" id="container">
         <img src="{% static 'images/RPSGame.png' %}" alt="RPSGame">
         <span id="linkSpan">{{link}}</span>
-        <h1 id="noti" style="color: #ffc060;">Click to copy ! </h1>
+        <h1 id="noti" style="color: #ffc060; margin-top: 1rem;">Click to copy ! </h1>
         <div class="loader">
             <div></div>
             <div></div>
@@ -31,8 +36,148 @@
             <div></div>
         </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
-    <script src="{% static 'js/RPSGame.js' %}"></script>
-    
+
+    <div id="letPlay" style="display: none;">
+        <p style="color: #ffc060; text-align: center; font-size: xxx-large; font-weight: bolder; font-family: math;">
+            ROUND 1
+        </p>
+        <div style="color: #ffc060; font-family: math; display: flex; justify-content: space-around;">
+            <div id="left" style="width: 56%;">
+                <p style="text-align: center; font-size: xx-large; margin-bottom: unset;">Your score</p>
+                <p style="text-align: center; font-size: x-large;">
+                    <span id="left-star-1" class="fa fa-star-o" aria-hidden="true"></span>
+                    <span id="left-star-2" class="fa fa-star-o" aria-hidden="true"></span>
+                    <span id="left-star-3" class="fa fa-star" aria-hidden="true"></span>
+                </p>
+                <div style="text-align: center;">
+                    <button class="btn-icon RPS-item" type="button" data-item="rock" style="outline: none;"><img
+                            src="{% static 'images/handRock.svg' %}" alt="icon" style="height: 230px;"></button>
+                    <button class="btn-icon RPS-item" type="button" data-item="paper" style="outline: none;"><img
+                            src="{% static 'images/handPaper.svg' %}" alt="icon" style="height: 230px;"></button>
+                    <button class="btn-icon RPS-item" type="button" data-item="scissors" style="outline: none;"><img
+                            src="{% static 'images/handSic.svg' %}" alt="icon" style="height: 230px;"></button>
+                </div>
+                <p style="text-align: center; font-size: xx-large; margin-bottom: unset;" id="your">Take your pick</p>
+            </div>
+
+            <div style="display: flex; flex-direction: column-reverse;">
+                <svg style="height: 230px;" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
+                    class="iconify iconify--emojione" preserveAspectRatio="xMidYMid meet" fill="#000000">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                        <path
+                            d="M62 52c0 5.5-4.5 10-10 10H12C6.5 62 2 57.5 2 52V12C2 6.5 6.5 2 12 2h40c5.5 0 10 4.5 10 10v40z"
+                            fill="#121212"> </path>
+                        <g fill="#ffc060">
+                            <path d="M26.3 19.7h5.4l-8.4 24.6h-4.9L10 19.7h5.5l5.4 18.7l5.4-18.7"> </path>
+                            <path
+                                d="M38.4 36.8c.2 1.1.5 2 .9 2.5c.9 1 2.3 1.5 4.4 1.5c1.2 0 2.3-.1 3-.4c1.5-.5 2.2-1.5 2.2-2.9c0-.8-.4-1.4-1.1-1.9c-.7-.4-1.9-.8-3.4-1.2l-2.7-.6c-2.6-.6-4.4-1.2-5.4-1.9c-1.7-1.1-2.5-2.9-2.5-5.3c0-2.2.8-4 2.4-5.5c1.6-1.5 4-2.2 7.2-2.2c2.6 0 4.9.7 6.7 2.1c1.9 1.4 2.8 3.4 2.9 6h-5c-.1-1.5-.8-2.5-2-3.2c-.8-.4-1.8-.6-3.1-.6c-1.4 0-2.5.3-3.3.8c-.8.5-1.2 1.3-1.2 2.2c0 .9.4 1.5 1.2 2c.5.3 1.6.6 3.3 1l4.3 1c1.9.4 3.3 1 4.3 1.8c1.5 1.2 2.2 2.8 2.2 5c0 2.3-.9 4.1-2.6 5.6c-1.5 1.7-3.9 2.4-7.1 2.4c-3.3 0-5.8-.7-7.7-2.2c-1.9-1.5-2.8-3.5-2.8-6h4.9">
+                            </path>
+                        </g>
+                    </g>
+                </svg>
+            </div>
+
+            <div id="right" style="width: 56%;">
+                <p style="text-align: center; font-size: xx-large; margin-bottom: unset;">Opponent's score</p>
+                <p style="text-align: center; font-size: x-large;">
+                    <span id="right-star-1" class="fa fa-star-o" aria-hidden="true"></span>
+                    <span id="right-star-2" class="fa fa-star-o" aria-hidden="true"></span>
+                    <span id="right-star-3" class="fa fa-star" aria-hidden="true"></span>
+                </p>
+                <div style="text-align: center;" id="waitPick">
+                    <div class="spinner-border" role="status" style="width: 10rem; height: 10rem; color: #ffc060;">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <p style="text-align: center; font-size: xx-large; margin-top: 8%;margin-bottom: unset;">Waiting for
+                        the opponent</p>
+                </div>
+                <div style="text-align: center; display: none;" id="donePick">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="230" height="230" fill="currentColor"
+                        class="bi bi-check" viewBox="0 0 16 16">
+                        <path
+                            d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z" />
+                    </svg>
+                    <p style="text-align: center; font-size: xx-large; margin-bottom: unset;">Opponent made a pick</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        //copy
+        document.getElementById("linkSpan").addEventListener("click", function () {
+            var linkText = this.textContent;
+            var tempInput = document.createElement("input");
+            tempInput.value = linkText;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+
+            document.getElementById("noti").textContent = "Link copied ! Send this link to your opponent to connect.";
+            // Return to original content after 30 seconds
+            setTimeout(function () {
+                document.getElementById("noti").textContent = "Click to copy ! ";
+            }, 15000);
+        });
+
+        const socket = io('http://localhost:3000');
+        socket.on('connect', () => {
+            // Gửi yêu cầu tham gia phòng với id là 'privateRoom'
+            socket.emit('joinRoom', '{{link}}');
+        });
+
+        // Lắng nghe sự kiện 'roomFull' xác nhận khi đã full phòng
+        socket.on('roomFull', (count) => {
+            if (count == 'full') {
+                alert('Phòng này đã đủ người chơi !!!')
+                window.location = '/RockPaperScissors'
+            }
+            if (count === 2) {
+                document.getElementById('container').style.display = 'none'
+                document.getElementById('letPlay').style.display = 'block'
+            }
+        });
+
+        // Lắng nghe sự kiện 'userLeave' khi có người out room
+        socket.on('userLeave', (count) => {
+            if (count === 1 || count === 0) {
+                document.getElementById('container').style.display = 'block'
+                document.getElementById('letPlay').style.display = 'none'
+            }
+        });
+
+        // Lắng nghe sự kiện và xử lý
+        var RPS = document.getElementsByClassName('RPS-item')
+        for (i = 0; i < RPS.length; i++) {
+            RPS[i].addEventListener('click', function () { //nghe su kien click
+                var item = this.dataset.item
+                document.getElementById('your').innerHTML = 'Your choose ' + item
+                // ẩn các nút khác
+                for (var j = 0; j < RPS.length; j++) {
+                    if (RPS[j] !== this) {
+                        RPS[j].classList.add('hidden');
+                    }
+                }
+                this.removeEventListener('click', function () { });
+
+                socket.emit('seclect', { item: item, link: window.location.href, uId:socket.id });
+            })
+        }
+
+        socket.on('result', (item) => {
+            console.log(item,socket.id)
+            if (item.win == socket.id) {
+                alert('your win')
+            }
+            else{
+                alert('Your lose')
+            }
+        });
+    </script>
 </body>
+
 </html>

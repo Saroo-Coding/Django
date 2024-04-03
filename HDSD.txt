@@ -14,3 +14,10 @@ trong app tạo folder templates chứa html
 vào views.py tạo hàm return về html
 trong app tạo file urls.py import views trỏ tới hàm trong views
 trỏ url app về project: mở urls.py của project import include thêm path('', include('ten app.urls')) 
+
+chạy pip freeze > requirements.txt để ghi danh sách tất cả các dependencies và phiên bản của chúng
+pip install -r requirements.txt  Cài đặt lại dependencies
+
+
+
+phản hồi kết quả thành công ròi giờ show ra cho đẹp xong lại chơi màn 2
