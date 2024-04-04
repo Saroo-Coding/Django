@@ -38,16 +38,15 @@
     </div>
 
     <div id="letPlay" style="display: none;">
-        <p style="color: #ffc060; text-align: center; font-size: xxx-large; font-weight: bolder; font-family: math;">
-            ROUND 1
-        </p>
+        <p style="color: #ffc060; text-align: center; font-size: xxx-large; font-weight: bolder; font-family: math;"
+            id="round">ROUND 1</p>
         <div style="color: #ffc060; font-family: math; display: flex; justify-content: space-around;">
             <div id="left" style="width: 56%;">
                 <p style="text-align: center; font-size: xx-large; margin-bottom: unset;">Your score</p>
                 <p style="text-align: center; font-size: x-large;">
-                    <span id="left-star-1" class="fa fa-star-o" aria-hidden="true"></span>
-                    <span id="left-star-2" class="fa fa-star-o" aria-hidden="true"></span>
-                    <span id="left-star-3" class="fa fa-star" aria-hidden="true"></span>
+                    <span class="fa fa-star-o left" aria-hidden="true"></span>
+                    <span class="fa fa-star-o left" aria-hidden="true"></span>
+                    <span class="fa fa-star-o left" aria-hidden="true"></span>
                 </p>
                 <div style="text-align: center;">
                     <button class="btn-icon RPS-item" type="button" data-item="rock" style="outline: none;"><img
@@ -83,11 +82,11 @@
             <div id="right" style="width: 56%;">
                 <p style="text-align: center; font-size: xx-large; margin-bottom: unset;">Opponent's score</p>
                 <p style="text-align: center; font-size: x-large;">
-                    <span id="right-star-1" class="fa fa-star-o" aria-hidden="true"></span>
-                    <span id="right-star-2" class="fa fa-star-o" aria-hidden="true"></span>
-                    <span id="right-star-3" class="fa fa-star" aria-hidden="true"></span>
+                    <span class="fa fa-star-o right" aria-hidden="true"></span>
+                    <span class="fa fa-star-o right" aria-hidden="true"></span>
+                    <span class="fa fa-star-o right" aria-hidden="true"></span>
                 </p>
-                <div style="text-align: center;" id="waitPick">
+                <div style="text-align: center; display: block;" id="waitPick">
                     <div class="spinner-border" role="status" style="width: 10rem; height: 10rem; color: #ffc060;">
                         <span class="sr-only">Loading...</span>
                     </div>
@@ -103,6 +102,14 @@
                     <p style="text-align: center; font-size: xx-large; margin-bottom: unset;">Opponent made a pick</p>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay" style="display: none; margin-top: 60px;">
+        <div class="notification">
+            <span id="notifications" style="font-size: xxx-large;"></span>
+            <br>
+            <span id="replay" style="font-size: x-large;"></span>
         </div>
     </div>
 
@@ -126,11 +133,11 @@
 
         const socket = io('http://localhost:3000');
         socket.on('connect', () => {
-            // Gửi yêu cầu tham gia phòng với id là 'privateRoom'
-            socket.emit('joinRoom', '{{link}}');
+            // Gửi yêu cầu tham gia phòng
+            socket.emit('joinRoom', { link: window.location.href, uId: socket.id });
         });
 
-        // Lắng nghe sự kiện 'roomFull' xác nhận khi đã full phòng
+        // Sự kiện xác nhận khi đã đủ người
         socket.on('roomFull', (count) => {
             if (count == 'full') {
                 alert('Phòng này đã đủ người chơi !!!')
@@ -142,41 +149,100 @@
             }
         });
 
-        // Lắng nghe sự kiện 'userLeave' khi có người out room
+        // Sự kiện khi có người out room
         socket.on('userLeave', (count) => {
-            if (count === 1 || count === 0) {
+            if (count === 1) { //room còn người
                 document.getElementById('container').style.display = 'block'
                 document.getElementById('letPlay').style.display = 'none'
             }
+            if (count === 0) { //room hết người xóa room về trang bắt đầu
+                window.location = '/RockPaperScissors'
+            }
         });
 
-        // Lắng nghe sự kiện và xử lý
+        // Sự kiện mình chọn
         var RPS = document.getElementsByClassName('RPS-item')
         for (i = 0; i < RPS.length; i++) {
             RPS[i].addEventListener('click', function () { //nghe su kien click
                 var item = this.dataset.item
-                document.getElementById('your').innerHTML = 'Your choose ' + item
+                document.getElementById('your').innerHTML = 'You choose ' + item
                 // ẩn các nút khác
                 for (var j = 0; j < RPS.length; j++) {
                     if (RPS[j] !== this) {
                         RPS[j].classList.add('hidden');
                     }
                 }
-                this.removeEventListener('click', function () { });
-
-                socket.emit('seclect', { item: item, link: window.location.href, uId:socket.id });
+                //Gửi lựa chọn
+                socket.emit('seclect', { item: item, link: window.location.href, uId: socket.id });
             })
         }
 
-        socket.on('result', (item) => {
-            console.log(item,socket.id)
-            if (item.win == socket.id) {
-                alert('your win')
+        //sự kiện khi đối thủ chọn
+        socket.on('opponent', (id) => {
+            if (socket.id !== id) {
+                document.getElementById('waitPick').style.display = 'none'
+                document.getElementById('donePick').style.display = 'block'
             }
-            else{
-                alert('Your lose')
+        })
+
+        // Nhận kết quả
+        socket.on('result', (item) => {
+            var firsLeftStar = document.getElementsByClassName('fa-star-o left')[0];
+            var firsRightStar = document.getElementsByClassName('fa-star-o right')[0];
+            if (item.win == socket.id) {
+                document.getElementById('notifications').innerHTML = '🎉 You win 🎉'
+                document.getElementById('overlay').style.display = 'flex'
+                if (firsLeftStar) {
+                    firsLeftStar.classList.remove('fa-star-o');
+                    firsLeftStar.classList.add('fa-star');
+                }
+            }
+            else {
+                if (item.win == 'tie' && item.lose == 'tie') {
+                    document.getElementById('notifications').innerHTML = '😁 Tie 😁'
+                    document.getElementById('overlay').style.display = 'flex'
+                }
+                else {
+                    document.getElementById('notifications').innerHTML = '😨 You lose 😨'
+                    document.getElementById('overlay').style.display = 'flex'
+                    if (firsRightStar) {
+                        firsRightStar.classList.remove('fa-star-o');
+                        firsRightStar.classList.add('fa-star');
+                    }
+                }
+            }
+
+            //Gửi số trận thắng
+            if (document.getElementsByClassName('fa-star left').length === 3 && document.getElementsByClassName('fa-star right').length < 3){
+                document.getElementById('notifications').innerHTML = '🤴 VICTORY 🤴'
+                document.getElementById('replay').innerHTML = 'Reload the page to play again'
+            }
+            else if (document.getElementsByClassName('fa-star right').length === 3 && document.getElementsByClassName('fa-star left').length < 3){
+                document.getElementById('notifications').innerHTML = '😭 DEFEAT 😭'
+                document.getElementById('replay').innerHTML = 'Reload the page to play again'
+            }
+            else {
+                setTimeout(function () { //round mới sau 1s
+                    //show notification 
+                    socket.emit('nextRound', window.location.href);
+                    document.querySelector('.overlay').style.display = 'none';
+                    //reset pick
+                    document.getElementById('your').innerHTML = 'Take your pick'
+                    var RPS = document.getElementsByClassName('RPS-item')
+                    for (i = 0; i < RPS.length; i++) {
+                        RPS[i].classList.remove('hidden');
+                    }
+                    // reset opponent
+                    document.getElementById('waitPick').style.display = 'block'
+                    document.getElementById('donePick').style.display = 'none'
+                    // next round
+                    var round = document.getElementsByClassName('fa-star left').length + document.getElementsByClassName('fa-star right').length + 1
+                    if (round != 0)
+                        document.getElementById('round').innerHTML = 'ROUND ' + round
+                }, 1000);
             }
         });
+
     </script>
 </body>
 

@@ -30,8 +30,18 @@
             <div></div>
         </div>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
     
+    <script>
+    const socket = io('http://localhost:3000');
+
+    socket.on('connect', () => {
+        // Gửi yêu cầu tham gia vào room ngẫu nhiên
+        socket.emit('joinRandomRoom');
+    });
+
+    socket.on('roomJoined', (room) => {
+        window.location.href = room; //chuyển hướng tới room
+    });
+    </script>
 </body>
 </html>

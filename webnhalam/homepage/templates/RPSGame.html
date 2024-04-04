@@ -23,7 +23,7 @@
     <img src="{% static 'images/RPSGame.png' %}" alt="RPSGame">
     <form class="selection" action="{% url 'RPSGame' %}" method="post">
         {% csrf_token %}
-        <button class="btn" name="submit" type="submit" value="friend">Play with Friend</button>
+        <button class="btn" name="submit" type="submit" value="friend">Play now</button>
         <button class="btn" name="submit" type="submit" value="random" style="margin-top: 5%;">Quick Match</button>
     </form>
 </div>
