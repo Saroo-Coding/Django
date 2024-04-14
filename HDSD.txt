@@ -19,5 +19,3 @@ chạy pip freeze > requirements.txt để ghi danh sách tất cả các depend
 pip install -r requirements.txt  Cài đặt lại dependencies
 
 
-
-deploy
