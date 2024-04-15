@@ -7,19 +7,14 @@ def US_home(request):
     return render(request,'US_home.html')
 
 def calculator(request):
-    hisCal = request.session.get('hisCal', [])
     if request.method == 'POST':
         try:
             str = request.POST.get('screen')
             result = eval(str)
-            #luu lich su
-            hisCal.append({'str':str, 'result':result})
-            request.session['hisCal'] = hisCal
-
-            return render(request,'calculator.html',{'result': result, 'hisCal': hisCal})
+            return render(request,'calculator.html',{'result': result})
         except:
-            return render(request,'calculator.html',{'result': "Error", 'hisCal': hisCal})
-    return render(request,'calculator.html', {'result': 0, 'hisCal': hisCal})
+            return render(request,'calculator.html',{'result': "Error"})
+    return render(request,'calculator.html', {'result': 0})
 
 def RPSGame(request):
     if request.method == 'POST':
