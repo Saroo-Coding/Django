@@ -1,0 +1,54 @@
+{% extends "main_template.html" %}
+
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{%static 'css/chatbot.css'%}">
+{% endblock %}
+
+{% block title %} Saroo Bot {% endblock %}
+
+{% block body %}
+
+<header style="padding: 10px;">
+    <nav>
+        <div class="navigation">
+            <a href="{% url 'home' %}"><img src="{% static 'images/arrow-back.svg' %}" alt="Back" width="40"></a>
+        </div>
+    </nav>
+</header>
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<div style="font-family: 'Segoe UI', sans-serif;">
+    <div class="chat">
+        <div class="chat-header clearfix">
+            <a>
+                <img src="{% static 'images/chatbot.png' %}" alt="avatar">
+            </a>
+            <div class="chat-about">
+                <h2 style="margin: unset;">Saroo Bot</h2>
+                <span>Hello,I'm Saroo bot created by Danh while searching for new knowledge, for the purpose of learning.</span><br>
+                <span>I was created very simply, the questions and answers are all self-thought so there will be questions with no response.</span>
+            </div>
+        </div>
+        <div class="chat-history">
+            <ul class="m-b-0 conversation">
+                
+            </ul>
+        </div>
+        <div class="chat-message clearfix">
+            <input id="user-input" type="text" placeholder="Ask me something ..." style="font-size: medium; padding: 10px; border: none; border-radius: 20px; width: 70%;" onkeydown="if(event.keyCode === 13) sendMessage()">
+            <div>
+              <button style="border: 2px solid #f4f7f6; background-color: white; border-radius: 20px; margin-left: 15px; cursor: pointer;" type="button" onclick="sendMessage()"><img src="/static/images/arrow-back.svg" style="transform: rotate(90deg);" alt="Back" width="40"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+<script src="{% static 'js/chatbot.js' %}"></script>
+
+{% endblock %}

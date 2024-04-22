@@ -46,6 +46,7 @@ nav {
 }
 
 #linkSpan {
+  width: fit-content;
   padding: 1%;
   color: #ffc060;
   font-size: 2.5rem;

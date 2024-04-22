@@ -9,5 +9,6 @@ urlpatterns = [
     path('RockPaperScissors/random', views.RPSRandom, name='RPSRandom'),
     path('RockPaperScissors/<str:id>', views.RPSMatch, name='RPSMatch'),
     
-    path('page/', views.page, name='page'),
+    path('Chatbot/', views.chatbot, name='chatbot'),
+    path('bot/', views.bot, name='bot'),
 ]
