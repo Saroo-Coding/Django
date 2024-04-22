@@ -76,7 +76,7 @@ def bot(request):
             else:
                 return JsonResponse(answer, safe=False)
         else:
-            knowledge_base["question"].append({"question": user_input, "answer": "none"})
+            knowledge_base["question"].append({"question": user_input, "answer": "Sorry, I don't understand what you mean !"})
             save_knowledge_base('knowledge_base.json', knowledge_base)
             return JsonResponse("Sorry, I don't understand what you mean !", safe=False)
 
